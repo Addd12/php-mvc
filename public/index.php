@@ -1,34 +1,19 @@
 <?php
 
-session_start();
+/* 
+* this file is the start of the app
+* it goes to init.php ehich is the file that calls the other main/general files (like Controller, Database config etc)
+* 
+*/
 
-class App{
-    
-    private function splitURL(){
-        $URL = $_GET['url'] ?? 'home';
-        $URL = explode("/", $URL);
-        //var_dump($URL);
-        return $URL;
-    }
-    
-    private function loadController()
-    {
-        $URL = splitURL();
-        //var_dump($URL);
-        $filename = "../app/controllers/".ucfirst($URL[0]).".php";
-        if(file_exists($filename))
-        {
-            require $filename;
-        }
-        else{
-            $filename = "../app/controllers/_404.php";
-            require $filename;
-        }
-    }
-    //show(splitURL());
-    
-    
-}
+session_start(); //needed for authentication part
 
+require "../app/core/init.php"; //this loads everything in our core folder
 
-loadController();
+/*
+* App is loaded from init.php. in order to use we should create an 
+* instance here then call the needed function
+*/
+$app = new App; //creating an instance of the class App
+//var_dump($app); //the result is an object(App) cos we are creatins an instance of a class
+$app->loadController(); //run a specific function of the instance of that class
